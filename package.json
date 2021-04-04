@@ -1,0 +1,48 @@
+{
+    "name": "sistema-pedidos",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "@material-ui/core": "4.11.3",
+        "@material-ui/icons": "4.11.2",
+        "firebase": "8.3.1",
+        "react": "17.0.1",
+        "react-dom": "17.0.1",
+        "react-router-dom": "5.2.0",
+        "react-scripts": "4.0.3",
+        "react-social-login-buttons": "^3.4.0",
+        "styled-components": "5.2.1",
+        "uuid": "8.3.2"
+    },
+    "scripts": {
+        "dev": "rescripts start",
+        "build": "rescripts build",
+        "test": "rescripts test"
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app",
+            "react-app/jest"
+        ]
+    },
+    "rescripts": [
+        "env"
+    ],
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "devDependencies": {
+        "@rescripts/cli": "0.0.16",
+        "@rescripts/rescript-env": "0.0.12",
+        "react-hot-loader": "4.13.0"
+    }
+}
