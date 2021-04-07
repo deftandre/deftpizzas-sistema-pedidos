@@ -15,10 +15,10 @@ const ChoosePizzaQuantity = ({ location }) => {
         return <Redirect to={HOME} />;
     }
 
-    function HandleChange(e) {
+    function handleChange(e) {
         const { value } = e.target;
 
-        if (value >= 1) {
+        if (value >= 1 && value <= 50) {
             setQuantity(value);
         }
     }
@@ -41,7 +41,7 @@ const ChoosePizzaQuantity = ({ location }) => {
                     </H4>
                 </HeaderContent>
                 <MainContent>
-                    <Input value={quantity} onChange={HandleChange} autoFocus />
+                    <Input value={quantity} onChange={handleChange} autoFocus />
                     <ButtonAddPizza to={HOME} onClick={addPizza}>
                         Adicionar e<br />
                         montar outra

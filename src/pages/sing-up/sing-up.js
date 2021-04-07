@@ -49,15 +49,18 @@ function SingUp() {
                         value={singUpInfo.displayName}
                         onChange={handleChange}
                         required
+                        inputProps={{ maxLength: 60 }}
                         autoFocus
                     />
                     <EmailField
                         value={singUpInfo.email}
                         onChange={handleChange}
+                        inputProps={{ maxLength: 120 }}
                     />
                     <PasswordField
                         value={singUpInfo.password}
                         onChange={handleChange}
+                        inputProps={{ maxLength: 40 }}
                     />
 
                     <Grid item xs={12}>

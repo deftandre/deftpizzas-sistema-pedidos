@@ -93,27 +93,32 @@ const FormAddress = ({ onUpdate = () => {} }) => {
                     xs: 9,
                     name: "address",
                     inputRef: addressField,
+                    textLength: 200,
                 },
                 {
                     label: "Número",
                     xs: 3,
                     name: "number",
                     inputRef: numberField,
+                    textLength: 7,
                 },
                 {
                     label: "Complemento",
                     xs: 12,
                     name: "complement",
+                    textLength: 60,
                 },
                 {
                     label: "Cidade",
                     xs: 9,
                     name: "city",
+                    textLength: 60,
                 },
                 {
                     label: "Estado",
                     xs: 3,
                     name: "state",
+                    textLength: 30,
                 },
             ].map((field) => (
                 <TextField
@@ -121,6 +126,7 @@ const FormAddress = ({ onUpdate = () => {} }) => {
                     key={field.name}
                     value={addressState[field.name]}
                     onChange={handleChangeField}
+                    inputProps={{ maxLength: field.textLength }}
                     disabled={fetchingCep}
                     required={field.name !== "complement" ? true : false}
                 />
