@@ -2,9 +2,10 @@ import React, { useState, useEffect, useReducer, useRef } from "react";
 import PropTypes from "prop-types";
 import { CircularProgress, Grid } from "@material-ui/core";
 import TextField from "./text-field";
+import { useOrder } from "hooks";
 
 const FormAddress = ({ onUpdate = () => {} }) => {
-    const [cep, setCep] = useState("");
+    const { cep, setCep } = useOrder();
     const [fetchingCep, setFetchingCep] = useState(false);
     const [addressState, dispatch] = useReducer(reducer, initialState);
     const numberField = useRef();
@@ -75,25 +76,26 @@ const FormAddress = ({ onUpdate = () => {} }) => {
     return (
         <Grid container spacing={2} alignItems="center">
             <TextField
-                label="CEP*"
+                label="CEP"
                 xs={4}
                 autoFocus
                 value={cep}
                 onChange={handleChangeCep}
                 error={!!addressState.error}
+                required
             />
             <Grid item xs={8}>
                 {fetchingCep && <CircularProgress size={20} />}
             </Grid>
             {[
                 {
-                    label: "Rua*",
+                    label: "Rua",
                     xs: 9,
                     name: "address",
                     inputRef: addressField,
                 },
                 {
-                    label: "Número*",
+                    label: "Número",
                     xs: 3,
                     name: "number",
                     inputRef: numberField,
@@ -104,12 +106,12 @@ const FormAddress = ({ onUpdate = () => {} }) => {
                     name: "complement",
                 },
                 {
-                    label: "Cidade*",
+                    label: "Cidade",
                     xs: 9,
                     name: "city",
                 },
                 {
-                    label: "Estado*",
+                    label: "Estado",
                     xs: 3,
                     name: "state",
                 },
@@ -120,6 +122,7 @@ const FormAddress = ({ onUpdate = () => {} }) => {
                     value={addressState[field.name]}
                     onChange={handleChangeField}
                     disabled={fetchingCep}
+                    required={field.name !== "complement" ? true : false}
                 />
             ))}
         </Grid>
@@ -142,7 +145,10 @@ function reducer(state, action) {
     if (action.type === "UPDATE_FIELD") {
         return {
             ...state,
-            [action.payload.name]: action.payload.value,
+            [action.payload.name]:
+                action.payload.name === "number"
+                    ? action.payload.value.replace(/\D/g, "")
+                    : action.payload.value,
         };
     }
 

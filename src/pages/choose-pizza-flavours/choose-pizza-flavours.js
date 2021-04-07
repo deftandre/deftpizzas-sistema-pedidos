@@ -75,31 +75,38 @@ const ChoosePizzaFlavours = ({ location }) => {
                             }
                             return 0;
                         })
-                        .map((pizza) => (
-                            <Grid item key={pizza.id} xs>
-                                <Card checked={!!checkboxes[pizza.id]}>
-                                    <Label>
-                                        <Checkbox
-                                            checked={!!checkboxes[pizza.id]}
-                                            onChange={handleChangeCheckbox(
-                                                pizza.id
-                                            )}
-                                        />
-                                        <Img
-                                            src={pizza.image}
-                                            alt={pizza.name}
-                                        />
+                        .map(
+                            (pizza) =>
+                                (pizza.value[id] || pizza.value[id] !== 0) && (
+                                    <Grid item key={pizza.id} xs>
+                                        <Card checked={!!checkboxes[pizza.id]}>
+                                            <Label>
+                                                <Checkbox
+                                                    checked={
+                                                        !!checkboxes[pizza.id]
+                                                    }
+                                                    onChange={handleChangeCheckbox(
+                                                        pizza.id
+                                                    )}
+                                                />
+                                                <Img
+                                                    src={pizza.image}
+                                                    alt={pizza.name}
+                                                />
 
-                                        <Divider />
+                                                <Divider />
 
-                                        <Typography>{pizza.name}</Typography>
-                                        <Typography variant="h6">
-                                            {toMoney(pizza.value[id])}
-                                        </Typography>
-                                    </Label>
-                                </Card>
-                            </Grid>
-                        ))}
+                                                <Typography>
+                                                    {pizza.name}
+                                                </Typography>
+                                                <Typography variant="h6">
+                                                    {toMoney(pizza.value[id])}
+                                                </Typography>
+                                            </Label>
+                                        </Card>
+                                    </Grid>
+                                )
+                        )}
                 </PizzasGrid>
             </Content>
             <Footer
@@ -159,7 +166,8 @@ const Checkbox = styled.input.attrs({
 `;
 
 const Img = styled.img`
-    width: 200px;
+    height: 150px;
+    width: 150px;
 `;
 
 export default ChoosePizzaFlavours;

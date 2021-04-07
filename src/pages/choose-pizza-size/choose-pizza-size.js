@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { Card, Grid, LinearProgress, Typography } from "@material-ui/core";
 import {
@@ -11,12 +12,11 @@ import {
     PizzasGrid,
 } from "ui";
 import { singularOrPlural } from "utils";
-import { useAuth, useCollection } from "hooks";
+import { useCollection } from "hooks";
 
 import { CHOOSE_PIZZA_FLAVOURS } from "routes";
 
-const ChoosePizzaSize = () => {
-    const { userInfo } = useAuth();
+const ChoosePizzaSize = ({ pageConfig }) => {
     const pizzasSizes = useCollection("pizzasSizes");
 
     if (!pizzasSizes) {
@@ -30,10 +30,8 @@ const ChoosePizzaSize = () => {
     return (
         <Content>
             <HeaderContent>
-                <H3 variant="h3">
-                    O que vai ser hoje, {userInfo.user.firstName}?
-                </H3>
-                <H4 variant="h4">Escolha o tamanho da pizza:</H4>
+                <H3 variant="h3">{pageConfig.title}</H3>
+                <H4 variant="h4">{pageConfig.subTitle}</H4>
             </HeaderContent>
             <PizzasGrid>
                 {pizzasSizes.map((pizza) => (
@@ -69,6 +67,10 @@ const ChoosePizzaSize = () => {
             </PizzasGrid>
         </Content>
     );
+};
+
+ChoosePizzaSize.propTypes = {
+    pageConfig: PropTypes.object.isRequired,
 };
 
 const Pizza = styled.div`

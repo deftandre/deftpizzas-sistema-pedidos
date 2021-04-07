@@ -5,9 +5,17 @@ import Header from "./header";
 
 import * as routes from "routes";
 
-const ChoosePizzaSize = lazy(() => import("pages/choose-pizza-size"));
+const Home = lazy(() => import("pages/home"));
 const ChoosePizzaFlavours = lazy(() => import("pages/choose-pizza-flavours"));
 const ChoosePizzaQuantity = lazy(() => import("pages/choose-pizza-quantity"));
+const ChoosePizzaFollows = lazy(() => import("pages/choose-pizza-follows"));
+const ChoosePizzaFollowQuantity = lazy(() =>
+    import("pages/choose-pizza-follow-quantity")
+);
+const ChoosePizzaDrinks = lazy(() => import("pages/choose-pizza-drinks"));
+const ChoosePizzaDrinkQuantity = lazy(() =>
+    import("pages/choose-pizza-drink-quantity")
+);
 const Checkout = lazy(() => import("pages/checkout"));
 const CheckoutConfirmation = lazy(() => import("pages/checkout-confirmation"));
 const CheckoutSuccess = lazy(() => import("pages/checkout-success"));
@@ -21,11 +29,7 @@ const Main = () => {
 
             <Suspense fallback={<LinearProgress />}>
                 <Switch>
-                    <Route
-                        path={routes.HOME}
-                        exact
-                        component={ChoosePizzaSize}
-                    />
+                    <Route path={routes.HOME} exact component={Home} />
                     <Route
                         path={routes.CHOOSE_PIZZA_FLAVOURS}
                         component={ChoosePizzaFlavours}
@@ -33,6 +37,22 @@ const Main = () => {
                     <Route
                         path={routes.CHOOSE_PIZZA_QUANTITY}
                         component={ChoosePizzaQuantity}
+                    />
+                    <Route
+                        path={routes.CHOOSE_PIZZA_FOLLOWS}
+                        component={ChoosePizzaFollows}
+                    />
+                    <Route
+                        path={routes.CHOOSE_PIZZA_FOLLOW_QUANTITY}
+                        component={ChoosePizzaFollowQuantity}
+                    />
+                    <Route
+                        path={routes.CHOOSE_PIZZA_DRINKS}
+                        component={ChoosePizzaDrinks}
+                    />
+                    <Route
+                        path={routes.CHOOSE_PIZZA_DRINK_QUANTITY}
+                        component={ChoosePizzaDrinkQuantity}
                     />
                     <Route path={routes.CHECKOUT} exact component={Checkout} />
                     <Route

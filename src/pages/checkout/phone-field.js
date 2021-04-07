@@ -24,10 +24,12 @@ function PhoneField({ onUpdate = () => {} }) {
 
     return (
         <TextField
-            label="Telefone*"
+            label="Telefone"
             xs={4}
             value={phone}
             onChange={handleChangePhone}
+            inputProps={{ minLength: 14 }}
+            required
         />
     );
 }

@@ -2,20 +2,20 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { Button, Input as MaterialInput } from "@material-ui/core";
-import { Content, Footer, H4, HeaderContent } from "ui";
+import { Content, FooterFollowQuantity, H4, HeaderContent } from "ui";
 import { Link, Redirect } from "react-router-dom";
-import { HOME, CHOOSE_PIZZA_FOLLOWS } from "routes";
+import { HOME, CHOOSE_PIZZA_FOLLOWS, CHOOSE_PIZZA_DRINKS } from "routes";
 import { useOrder } from "hooks";
 
-const ChoosePizzaQuantity = ({ location }) => {
+const ChoosePizzaFollowQuantity = ({ location }) => {
     const [quantity, setQuantity] = useState(1);
-    const { addPizzaToOrder } = useOrder();
+    const { addFollowToOrder } = useOrder();
 
     if (!location.state) {
         return <Redirect to={HOME} />;
     }
 
-    function HandleChange(e) {
+    function handleChange(e) {
         const { value } = e.target;
 
         if (value >= 1) {
@@ -23,8 +23,8 @@ const ChoosePizzaQuantity = ({ location }) => {
         }
     }
 
-    function addPizza() {
-        addPizzaToOrder({
+    function addPizzaFollow() {
+        addFollowToOrder({
             ...location.state,
             quantity,
         });
@@ -35,28 +35,31 @@ const ChoosePizzaQuantity = ({ location }) => {
             <Content>
                 <HeaderContent>
                     <H4 variant="h4">
-                        Quantas pizzas você gostaria
+                        Quanto desse acompanhamento
                         <br />
-                        de pedir, com esses sabores?
+                        você gostaria de pedir?
                     </H4>
                 </HeaderContent>
                 <MainContent>
-                    <Input value={quantity} onChange={HandleChange} autoFocus />
-                    <ButtonAddPizza to={HOME} onClick={addPizza}>
+                    <Input value={quantity} onChange={handleChange} autoFocus />
+                    <ButtonAddPizza
+                        to={CHOOSE_PIZZA_FOLLOWS}
+                        onClick={addPizzaFollow}
+                    >
                         Adicionar e<br />
-                        montar outra
+                        escolher outro
                     </ButtonAddPizza>
                 </MainContent>
             </Content>
-            <Footer
+            <FooterFollowQuantity
                 buttons={{
                     back: {
-                        children: "Mudar sabores",
+                        children: "Mudar acompanhamento",
                     },
                     action: {
-                        to: CHOOSE_PIZZA_FOLLOWS,
-                        onClick: addPizza,
-                        children: "Finalizar escolha de pizzas",
+                        to: CHOOSE_PIZZA_DRINKS,
+                        onClick: addPizzaFollow,
+                        children: "Finalizar escolha de acompanhamentos",
                     },
                 }}
             />
@@ -64,7 +67,7 @@ const ChoosePizzaQuantity = ({ location }) => {
     );
 };
 
-ChoosePizzaQuantity.propTypes = {
+ChoosePizzaFollowQuantity.propTypes = {
     location: PropTypes.object.isRequired,
 };
 
@@ -96,4 +99,4 @@ const ButtonAddPizza = styled(Button).attrs({
     text-align: center;
 `;
 
-export default ChoosePizzaQuantity;
+export default ChoosePizzaFollowQuantity;

@@ -5,8 +5,8 @@ const Logo = styled.img.attrs({
     src: MainLogo,
     alt: "Deft Pizzas Delivery",
 })`
-    height: 50px;
-    width: 200px;
+    height: 44px;
+    width: 180px;
 `;
 
 export default Logo;

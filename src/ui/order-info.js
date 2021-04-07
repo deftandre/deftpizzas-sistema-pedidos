@@ -12,7 +12,12 @@ import { useOrder } from "hooks";
 import { singularOrPlural } from "utils";
 
 const OrderInfo = ({ showOptions }) => {
-    const { order, removePizzaFromOrder } = useOrder();
+    const {
+        order,
+        removePizzaFromOrder,
+        removeFollowFromOrder,
+        removeDrinkFromOrder,
+    } = useOrder();
     return (
         <List>
             {order.pizzas.map((pizza) => {
@@ -62,6 +67,54 @@ const OrderInfo = ({ showOptions }) => {
                                 title="Remover"
                                 color="secondary"
                                 onClick={() => removePizzaFromOrder(pizza.id)}
+                            >
+                                <Close />
+                            </IconButton>
+                        )}
+                    </ListItem>
+                );
+            })}
+            {order.pizzaFollows?.map((follow) => {
+                const { pizzaFollows, quantity } = follow;
+                const { name } = pizzaFollows;
+                return (
+                    <ListItem key={follow.id}>
+                        <Typography>
+                            <b>{quantity}</b>{" "}
+                            {singularOrPlural(
+                                quantity,
+                                "acompanhamento",
+                                "acompanhamentos"
+                            )}{" "}
+                            <b>{name.toUpperCase()}</b>
+                        </Typography>
+                        {showOptions && (
+                            <IconButton
+                                title="Remover"
+                                color="secondary"
+                                onClick={() => removeFollowFromOrder(follow.id)}
+                            >
+                                <Close />
+                            </IconButton>
+                        )}
+                    </ListItem>
+                );
+            })}
+            {order.pizzaDrinks?.map((drink) => {
+                const { pizzaDrinks, quantity } = drink;
+                const { name } = pizzaDrinks;
+                return (
+                    <ListItem key={drink.id}>
+                        <Typography>
+                            <b>{quantity}</b>{" "}
+                            {singularOrPlural(quantity, "bebida", "bebidas")}{" "}
+                            <b>{name.toUpperCase()}</b>
+                        </Typography>
+                        {showOptions && (
+                            <IconButton
+                                title="Remover"
+                                color="secondary"
+                                onClick={() => removeDrinkFromOrder(drink.id)}
                             >
                                 <Close />
                             </IconButton>

@@ -21,6 +21,7 @@ FooterCheckout.propTypes = {
 const FooterContent = styled.div`
     display: flex;
     justify-content: ${({ justifyContent }) => justifyContent || "flex-end"};
+    align-items: center;
 `;
 
 export default FooterCheckout;

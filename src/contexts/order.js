@@ -8,26 +8,71 @@ const OrderContext = createContext();
 
 function OrderProvider({ children }) {
     const [pizzas, addPizza] = useState([]);
+    const [pizzaFollows, addPizzaFollows] = useState([]);
+    const [pizzaDrinks, addPizzaDrinks] = useState([]);
     const [orderInProgress, setOrderInProgress] = useState(false);
+    const [orderFollowsInProgress, setOrderFollowsInProgress] = useState(false);
+    const [orderDrinksInProgress, setOrderDrinksInProgress] = useState(false);
     const [phone, addPhone] = useState("");
     const [address, addAddress] = useState({});
     const { userInfo } = useAuth();
+    const [cep, setCep] = useState("");
 
     function addPizzaToOrder(pizza) {
         if (orderInProgress) {
-            return addPizza((pizzas) => pizzas.concat(newPizza(pizza)));
+            return addPizza((pizzas) => pizzas.concat(newItem(pizza)));
         }
 
         setOrderInProgress(true);
-        addPizza([newPizza(pizza)]);
+        addPizza([newItem(pizza)]);
     }
 
-    function newPizza(pizza) {
-        return { id: uuidv4(), ...pizza };
+    function newItem(item) {
+        return { id: uuidv4(), ...item };
+    }
+
+    function addFollowToOrder(pizzaFollow) {
+        if (orderFollowsInProgress) {
+            return addPizzaFollows((pizzaFollows) =>
+                pizzaFollows.concat(newItem(pizzaFollow))
+            );
+        }
+
+        setOrderFollowsInProgress(true);
+        addPizzaFollows([newItem(pizzaFollow)]);
+    }
+
+    function addDrinkToOrder(pizzaDrink) {
+        if (orderDrinksInProgress) {
+            return addPizzaDrinks((pizzaDrinks) =>
+                pizzaDrinks.concat(newItem(pizzaDrink))
+            );
+        }
+
+        setOrderDrinksInProgress(true);
+        addPizzaDrinks([newItem(pizzaDrink)]);
+    }
+
+    function clearFollows() {
+        addPizzaFollows([]);
+    }
+
+    function clearDrinks() {
+        addPizzaDrinks([]);
     }
 
     function removePizzaFromOrder(id) {
         addPizza((pizzas) => pizzas.filter((p) => p.id !== id));
+    }
+
+    function removeFollowFromOrder(id) {
+        addPizzaFollows((pizzaFollows) =>
+            pizzaFollows.filter((f) => f.id !== id)
+        );
+    }
+
+    function removeDrinkFromOrder(id) {
+        addPizzaDrinks((pizzaDrinks) => pizzaDrinks.filter((d) => d.id !== id));
     }
 
     async function sendOrder() {
@@ -36,13 +81,20 @@ function OrderProvider({ children }) {
                 userId: userInfo.user.uid,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
 
-                address,
+                address: {
+                    ...address,
+                    code: address.code === "" ? cep : address.code,
+                },
                 phone,
                 pizzas: pizzas.map((pizza) => ({
                     size: pizza.pizzaSize,
                     flavours: pizza.pizzaFlavours,
                     quantity: pizza.quantity,
                 })),
+                follows: pizzaFollows.map((follow) => ({
+                    ...follow,
+                })),
+                drinks: pizzaDrinks.map((drink) => ({ ...drink })),
             });
         } catch (e) {
             console.log("Erro ao salvar o pedido: ", e);
@@ -50,6 +102,8 @@ function OrderProvider({ children }) {
         }
 
         setOrderInProgress(false);
+        setOrderFollowsInProgress(false);
+        setOrderDrinksInProgress(false);
     }
 
     return (
@@ -59,12 +113,22 @@ function OrderProvider({ children }) {
                     pizzas,
                     address,
                     phone,
+                    pizzaFollows,
+                    pizzaDrinks,
                 },
                 addPizzaToOrder,
                 removePizzaFromOrder,
+                cep,
+                setCep,
                 sendOrder,
                 addAddress,
                 addPhone,
+                addFollowToOrder,
+                removeFollowFromOrder,
+                clearFollows,
+                addDrinkToOrder,
+                removeDrinkFromOrder,
+                clearDrinks,
             }}
         >
             {children}

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import { Button, Grid, Paper } from "@material-ui/core";
 import { Content, OrderInfo, Title as UiTitle } from "ui";
 import FooterCheckout from "./footer-checkout";
@@ -11,30 +11,24 @@ import { useOrder } from "hooks";
 
 const Checkout = () => {
     const { order, addAddress, addPhone } = useOrder();
-    const [checkForm, setCheckForm] = useState(true);
 
-    useEffect(() => {
-        console.log(order);
-        if (
-            order &&
-            order.address.code &&
-            order.address.address !== "" &&
-            order.address.number !== "" &&
-            order.address.city !== "" &&
-            order.address.state !== "" &&
-            order.phone.length > 13
-        ) {
-            setCheckForm(false);
-            console.log(checkForm);
-        }
-    }, [checkForm, order]);
+    const history = useHistory();
+
+    const handleSubmit = useCallback(
+        async (e) => {
+            e.preventDefault();
+
+            history.push(CHECKOUT_CONFIRMATION);
+        },
+        [history]
+    );
 
     if (!order.pizzas.length) {
         return <Redirect to={HOME} />;
     }
 
     return (
-        <>
+        <FormContainer onSubmit={handleSubmit}>
             <Content>
                 <Grid container spacing={4}>
                     <Grid item xs={12} md={6}>
@@ -57,17 +51,11 @@ const Checkout = () => {
                 </Grid>
             </Content>
             <FooterCheckout>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    component={Link}
-                    to={CHECKOUT_CONFIRMATION}
-                    disabled={checkForm}
-                >
+                <Button variant="contained" color="primary" type="submit">
                     Confirmar pedido
                 </Button>
             </FooterCheckout>
-        </>
+        </FormContainer>
     );
 };
 
@@ -80,5 +68,9 @@ const PaperContainer = styled(Paper)`
     margin-bottom: ${({ theme }) => theme.spacing(5)}px;
     padding: ${({ theme }) => theme.spacing(2)}px;
 `;
+
+const FormContainer = styled(Grid).attrs({
+    component: "form",
+})``;
 
 export default Checkout;
