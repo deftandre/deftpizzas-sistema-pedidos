@@ -22,7 +22,6 @@ const OrderView = ({ pageConfig, orders, changeView }) => {
     );
 
     function getOrderStatus(status) {
-        console.log(status);
         return !status
             ? 0
             : status === statusText.pending
