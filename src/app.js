@@ -20,7 +20,6 @@ function App({ location }) {
 
     useEffect(() => {
         firebase.auth().onAuthStateChanged((user) => {
-            console.log(user);
             setUserInfo({
                 isUserLoggedIn: !!user,
                 user: user && {

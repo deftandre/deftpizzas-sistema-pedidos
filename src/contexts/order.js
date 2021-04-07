@@ -79,6 +79,7 @@ function OrderProvider({ children }) {
         try {
             await db.collection("orders").add({
                 userId: userInfo.user.uid,
+                userName: userInfo.user.displayName,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
 
                 address: {
