@@ -6,7 +6,6 @@ import { AccountCircle } from "@material-ui/icons";
 import { HOME } from "routes";
 import { useAuth } from "hooks";
 import Logo from "./logo";
-import { H6 } from "ui";
 
 const HeaderCommon = () => {
     const [anchorElement, setAnchorElement] = useState(null);

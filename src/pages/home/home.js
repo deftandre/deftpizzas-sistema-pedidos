@@ -10,25 +10,29 @@ const Home = () => {
 
     const pageConfig = useMemo(
         () => ({
-            title: orders
-                ? `Você tem ${singularOrPlural(
-                      orders.length,
-                      "um pedido",
-                      "pedidos"
-                  )} em andamento, acompanhe:`
-                : `O que vai ser hoje, ${userInfo.user.firstName}?`,
-            subTitle: orders ? "" : "Escolha o tamanho da pizza:",
+            title:
+                orders && orders?.length !== 0
+                    ? `Você tem ${singularOrPlural(
+                          orders.length,
+                          "um pedido",
+                          "pedidos"
+                      )} em andamento, acompanhe:`
+                    : `O que vai ser hoje, ${userInfo.user.firstName}?`,
+            subTitle:
+                orders && orders?.length !== 0
+                    ? ""
+                    : "Escolha o tamanho da pizza:",
         }),
         [orders, userInfo]
     );
 
     return (
         <>
-            {orders?.length !== 0 && (
-                <OrderView pageConfig={pageConfig} orders={orders} />
+            {(!orders || orders?.length === 0) && (
+                <ChoosePizzaSize pageConfig={pageConfig} showSize />
             )}
-            {(orders || orders?.length === 0) && (
-                <ChoosePizzaSize pageConfig={pageConfig} />
+            {orders && orders?.length !== 0 && (
+                <OrderView pageConfig={pageConfig} orders={orders} />
             )}
         </>
     );

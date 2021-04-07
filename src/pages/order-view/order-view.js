@@ -11,7 +11,7 @@ import {
 import { Content, Divider, H4, HeaderContent } from "ui";
 import { singularOrPlural } from "utils";
 
-const OrderView = ({ pageConfig, orders }) => {
+const OrderView = ({ pageConfig, orders, changeView }) => {
     const statusText = useMemo(
         () => ({
             pending: "pending",
@@ -47,158 +47,177 @@ const OrderView = ({ pageConfig, orders }) => {
     ];
 
     return (
-        <Content>
-            <HeaderContent>
-                <H4>{pageConfig.title}</H4>
-            </HeaderContent>
-            <Divider />
-            <Grid container>
-                {orders?.map((order) => {
-                    const {
-                        address,
-                        number,
-                        complement,
-                        district,
-                        code: cep,
-                        city,
-                        state,
-                    } = order.address;
-                    return (
-                        <Grid item container key={order.id}>
-                            <Grid
-                                container
-                                item
-                                xs={12}
-                                spacing={1}
-                                justify="center"
-                            >
-                                <Stepper
-                                    activeStep={getOrderStatus(order.status)}
+        <>
+            <Content>
+                <HeaderContent>
+                    <H4>{pageConfig.title}</H4>
+                </HeaderContent>
+                <Divider />
+                <Grid container>
+                    {orders?.map((order) => {
+                        const {
+                            address,
+                            number,
+                            complement,
+                            district,
+                            code: cep,
+                            city,
+                            state,
+                        } = order.address;
+                        return (
+                            <Grid item container key={order.id}>
+                                <Grid
+                                    container
+                                    item
+                                    xs={12}
+                                    spacing={1}
+                                    justify="center"
                                 >
-                                    {ordersSteps.map((label) => (
-                                        <Step key={label}>
-                                            <StepLabel>{label}</StepLabel>
-                                        </Step>
-                                    ))}
-                                </Stepper>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Subtitle>
-                                    Horário do pedido:{" "}
-                                    {getHour(order.createdAt.toDate())}
-                                </Subtitle>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Subtitle>Pedido:</Subtitle>
+                                    <Stepper
+                                        activeStep={getOrderStatus(
+                                            order.status
+                                        )}
+                                    >
+                                        {ordersSteps.map((label) => (
+                                            <Step key={label}>
+                                                <StepLabel>{label}</StepLabel>
+                                            </Step>
+                                        ))}
+                                    </Stepper>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Subtitle>
+                                        Horário do pedido:{" "}
+                                        {getHour(order.createdAt.toDate())}
+                                    </Subtitle>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Subtitle>Pedido:</Subtitle>
 
-                                <ul>
-                                    {order.pizzas.map((pizza, index) => (
-                                        <li key={index}>
-                                            <Typography>
-                                                {pizza.quantity}{" "}
-                                                {singularOrPlural(
-                                                    pizza.quantity,
-                                                    "pizza",
-                                                    "pizzas"
-                                                )}{" "}
-                                                {singularOrPlural(
-                                                    pizza.quantity,
-                                                    pizza.size.name,
-                                                    pizza.size.name + "s"
-                                                ).toUpperCase()}{" "}
-                                                de{" "}
-                                                {pizza.flavours
-                                                    .map(
-                                                        (flavour) =>
-                                                            flavour.name
-                                                    )
-                                                    .reduce(
-                                                        (
-                                                            acc,
-                                                            flavour,
-                                                            index,
-                                                            array
-                                                        ) => {
-                                                            if (index === 0) {
-                                                                return flavour;
-                                                            }
-
-                                                            if (
-                                                                index ===
-                                                                array.length - 1
-                                                            ) {
-                                                                return `${acc} e ${flavour}`;
-                                                            }
-
-                                                            return `${acc}, ${flavour}`;
-                                                        },
-                                                        ""
-                                                    )}
-                                            </Typography>
-                                        </li>
-                                    ))}
-                                </ul>
-
-                                {order.follows.length !== 0 && (
-                                    <Subtitle>Acompanhamentos:</Subtitle>
-                                )}
-
-                                {order.follows.length !== 0 && (
                                     <ul>
-                                        {order.follows.map((follow, index) => (
+                                        {order.pizzas.map((pizza, index) => (
                                             <li key={index}>
                                                 <Typography>
-                                                    {follow.quantity}{" "}
+                                                    {pizza.quantity}{" "}
                                                     {singularOrPlural(
-                                                        follow.quantity,
-                                                        "acompanhamento",
-                                                        "acompanhamentos"
+                                                        pizza.quantity,
+                                                        "pizza",
+                                                        "pizzas"
                                                     )}{" "}
-                                                    {follow.pizzaFollows.name}
+                                                    {singularOrPlural(
+                                                        pizza.quantity,
+                                                        pizza.size.name,
+                                                        pizza.size.name + "s"
+                                                    ).toUpperCase()}{" "}
+                                                    de{" "}
+                                                    {pizza.flavours
+                                                        .map(
+                                                            (flavour) =>
+                                                                flavour.name
+                                                        )
+                                                        .reduce(
+                                                            (
+                                                                acc,
+                                                                flavour,
+                                                                index,
+                                                                array
+                                                            ) => {
+                                                                if (
+                                                                    index === 0
+                                                                ) {
+                                                                    return flavour;
+                                                                }
+
+                                                                if (
+                                                                    index ===
+                                                                    array.length -
+                                                                        1
+                                                                ) {
+                                                                    return `${acc} e ${flavour}`;
+                                                                }
+
+                                                                return `${acc}, ${flavour}`;
+                                                            },
+                                                            ""
+                                                        )}
                                                 </Typography>
                                             </li>
                                         ))}
                                     </ul>
-                                )}
 
-                                {order.drinks.length !== 0 && (
-                                    <Subtitle>Bebidas:</Subtitle>
-                                )}
-                                {order.drinks.length !== 0 && (
-                                    <ul>
-                                        {order.drinks.map((drink, index) => (
-                                            <li key={index}>
-                                                <Typography>
-                                                    {drink.quantity}{" "}
-                                                    {singularOrPlural(
-                                                        drink.quantity,
-                                                        "acompanhamento",
-                                                        "acompanhamentos"
-                                                    )}{" "}
-                                                    {drink.pizzaDrinks.name}
-                                                </Typography>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                )}
+                                    {order.follows.length !== 0 && (
+                                        <Subtitle>Acompanhamentos:</Subtitle>
+                                    )}
+
+                                    {order.follows.length !== 0 && (
+                                        <ul>
+                                            {order.follows.map(
+                                                (follow, index) => (
+                                                    <li key={index}>
+                                                        <Typography>
+                                                            {follow.quantity}{" "}
+                                                            {singularOrPlural(
+                                                                follow.quantity,
+                                                                "acompanhamento",
+                                                                "acompanhamentos"
+                                                            )}{" "}
+                                                            {
+                                                                follow
+                                                                    .pizzaFollows
+                                                                    .name
+                                                            }
+                                                        </Typography>
+                                                    </li>
+                                                )
+                                            )}
+                                        </ul>
+                                    )}
+
+                                    {order.drinks.length !== 0 && (
+                                        <Subtitle>Bebidas:</Subtitle>
+                                    )}
+                                    {order.drinks.length !== 0 && (
+                                        <ul>
+                                            {order.drinks.map(
+                                                (drink, index) => (
+                                                    <li key={index}>
+                                                        <Typography>
+                                                            {drink.quantity}{" "}
+                                                            {singularOrPlural(
+                                                                drink.quantity,
+                                                                "acompanhamento",
+                                                                "acompanhamentos"
+                                                            )}{" "}
+                                                            {
+                                                                drink
+                                                                    .pizzaDrinks
+                                                                    .name
+                                                            }
+                                                        </Typography>
+                                                    </li>
+                                                )
+                                            )}
+                                        </ul>
+                                    )}
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Subtitle>Endereço de entrega:</Subtitle>
+                                    <Typography>
+                                        {address}, {number && `nº ${number}`}{" "}
+                                        {complement && `, ${complement}`}
+                                        <br />
+                                        Bairro: {district} - CEP: {cep}
+                                        <br />
+                                        {city} / {state}
+                                    </Typography>
+                                </Grid>
+                                <Divider />
                             </Grid>
-                            <Grid item xs={12}>
-                                <Subtitle>Endereço de entrega:</Subtitle>
-                                <Typography>
-                                    {address}, {number && `nº ${number}`}{" "}
-                                    {complement && `, ${complement}`}
-                                    <br />
-                                    Bairro: {district} - CEP: {cep}
-                                    <br />
-                                    {city} / {state}
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                    );
-                })}
-            </Grid>
-            <Divider />
-        </Content>
+                        );
+                    })}
+                </Grid>
+            </Content>
+        </>
     );
 };
 

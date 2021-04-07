@@ -9,7 +9,7 @@ function SimpleFooter({ buttons }) {
         <FooterContent>
             <Container>
                 <Grid container>
-                    <OrderContainer></OrderContainer>
+                    <SpaceContainer></SpaceContainer>
                     <ButtonsContainer>
                         <Button
                             {...buttons.action}
@@ -27,7 +27,7 @@ SimpleFooter.propTypes = {
     buttons: PropTypes.object.isRequired,
 };
 
-const OrderContainer = styled(Grid).attrs({ item: true })`
+const SpaceContainer = styled(Grid).attrs({ item: true })`
     flex-grow: 1;
 `;
 
