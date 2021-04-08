@@ -7,6 +7,7 @@ import {
     Container,
     Grid,
     Typography,
+    useMediaQuery,
 } from "@material-ui/core";
 
 import { useAuth } from "hooks";
@@ -22,14 +23,14 @@ function FooterFollowQuantity({ buttons, history, location }) {
             <Container>
                 <Grid container>
                     <OrderContainer>
-                        <Typography>
+                        <Texts>
                             <b>
                                 {userInfo.user.firstName}, seu acompanhamento é:
                             </b>
-                        </Typography>
-                        <Typography>
+                        </Texts>
+                        <Texts>
                             Acompanhamento <b>{name.toUpperCase()}</b>
-                        </Typography>
+                        </Texts>
                     </OrderContainer>
                     <ButtonsContainer>
                         <Button
@@ -66,9 +67,16 @@ const ButtonsContainer = styled(Grid).attrs({ item: true })`
     display: flex;
 `;
 
+const Texts = styled(Typography)`
+    font-size: ${({ theme }) =>
+        useMediaQuery(theme.breakpoints.down("xs")) ? "14px" : null};
+`;
+
 const Button = styled(MaterialButton).attrs({
     variant: "contained",
 })`
+    font-size: ${({ theme }) =>
+        useMediaQuery(theme.breakpoints.down("xs")) ? "11px" : null};
     margin-left: ${({ theme }) => theme.spacing(2)}px;
 `;
 
