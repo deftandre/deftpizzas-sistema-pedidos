@@ -67,10 +67,19 @@ function AuthProvider({ children }) {
             .then((userCredential) => {
                 setUserInfo(userCredential.user);
             })
-            .catch((error) => {
-                alert(
-                    `Email ou senha incorretos. Tente novamente ou clique em "Esqueceu sua senha?"`
-                );
+            .catch((e) => {
+                if (e.code === "auth/user-not-found")
+                    return alert("Email não cadastrado");
+
+                if (e.code === "auth/wrong-password") {
+                    return alert(
+                        `Email ou senha incorretos. Tente novamente ou clique em "Esqueceu sua senha?"`
+                    );
+                } else {
+                    return alert(
+                        `Email ou senha incorretos. Tente novamente ou clique em "Esqueceu sua senha?"`
+                    );
+                }
             });
     }, []);
 
