@@ -39,7 +39,7 @@ function AuthProvider({ children }) {
             firebase
                 .auth()
                 .createUserWithEmailAndPassword(email, password)
-                .then(async (userCredential) => {
+                .then((userCredential) => {
                     var user = userCredential.user;
                     db.collection("users").doc(user.uid).set({
                         email: email,
@@ -47,7 +47,7 @@ function AuthProvider({ children }) {
                         role: "user",
                     });
 
-                    await upgradeUserName();
+                    upgradeUserName();
                 })
                 .catch((error) => {
                     if (
