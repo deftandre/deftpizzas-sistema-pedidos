@@ -28,10 +28,17 @@ const Checkout = () => {
     }
 
     return (
-        <FormContainer onSubmit={handleSubmit}>
+        <>
             <Content>
                 <Grid container spacing={4}>
-                    <Grid item xs={12} md={6}>
+                    <Grid
+                        item
+                        xs={12}
+                        md={6}
+                        component="form"
+                        id="form-order"
+                        onSubmit={handleSubmit}
+                    >
                         <Title>Qual o endereço para entrega?</Title>
                         <PaperContainer>
                             <FormAddress onUpdate={addAddress} />
@@ -51,11 +58,16 @@ const Checkout = () => {
                 </Grid>
             </Content>
             <FooterCheckout>
-                <Button variant="contained" color="primary" type="submit">
+                <Button
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    form="form-order"
+                >
                     Confirmar pedido
                 </Button>
             </FooterCheckout>
-        </FormContainer>
+        </>
     );
 };
 
@@ -68,9 +80,5 @@ const PaperContainer = styled(Paper)`
     margin-bottom: ${({ theme }) => theme.spacing(5)}px;
     padding: ${({ theme }) => theme.spacing(2)}px;
 `;
-
-const FormContainer = styled(Grid).attrs({
-    component: "form",
-})``;
 
 export default Checkout;
