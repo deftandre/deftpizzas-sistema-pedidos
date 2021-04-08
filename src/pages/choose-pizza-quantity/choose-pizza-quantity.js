@@ -19,7 +19,7 @@ const ChoosePizzaQuantity = ({ location }) => {
         const { value } = e.target;
 
         if (value >= 1 && value <= 50) {
-            setQuantity(value);
+            setQuantity(parseInt(value));
         }
     }
 
@@ -79,6 +79,7 @@ const Input = styled(MaterialInput).attrs({
     type: "number",
 })`
     margin-bottom: ${({ theme }) => theme.spacing(3)}px;
+    pattern="\d*";
 
     & input {
         font-size: 80px;

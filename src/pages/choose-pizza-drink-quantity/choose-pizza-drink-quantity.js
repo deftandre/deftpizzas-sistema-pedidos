@@ -19,7 +19,7 @@ const ChoosePizzaFollowQuantity = ({ location }) => {
         const { value } = e.target;
 
         if (value >= 1 && value <= 50) {
-            setQuantity(value);
+            setQuantity(parseInt(value));
         }
     }
 
