@@ -29,14 +29,7 @@ const CheckoutConfirmation = () => {
         <>
             <Content>
                 <Header>
-                    <H4>
-                        Oi{" "}
-                        {userInfo.user.firstName === "" ||
-                        userInfo.user.firstName
-                            ? userName
-                            : userInfo.user.firstName}
-                        !
-                    </H4>
+                    <H4>Oi {userInfo.user.firstName}!</H4>
                     <Typography>
                         Confere, por favor, se está tudo certo com o seu pedido
                         antes de finalizar?

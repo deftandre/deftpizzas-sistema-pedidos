@@ -16,7 +16,8 @@ function AuthProvider({ children }) {
     const upgradeUserName = useCallback(() => {
         const uid = userInfo.user?.uid || "EMPTY";
 
-        db.collection("users")
+        return db
+            .collection("users")
             .doc(uid)
             .get()
             .then((doc) => {
@@ -141,6 +142,7 @@ function AuthProvider({ children }) {
                 forgoutPassword,
                 userInfo,
                 userName,
+                upgradeUserName,
                 setUserInfo,
             }}
         >

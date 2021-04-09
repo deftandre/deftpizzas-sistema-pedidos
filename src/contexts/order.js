@@ -80,8 +80,7 @@ function OrderProvider({ children }) {
             await db.collection("orders").add({
                 userId: userInfo.user.uid,
                 userName:
-                    userInfo.user.displayName === "" ||
-                    userInfo.user.displayName
+                    userInfo.user.displayName === ""
                         ? userName
                         : userInfo.user.displayName,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
