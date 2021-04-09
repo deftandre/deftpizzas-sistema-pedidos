@@ -53,4 +53,4 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ## License
 
-[MIT](https://github.com/deftandre/licenses/blob/master/MIT-LICENSE) &copy; André Almeida
+&copy; André Almeida
