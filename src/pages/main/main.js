@@ -1,5 +1,5 @@
-import React, { lazy, Suspense } from "react";
-import { Switch, Route } from "react-router-dom";
+import React, { lazy, Suspense, useEffect } from "react";
+import { Switch, Route, useLocation } from "react-router-dom";
 import { LinearProgress, withStyles } from "@material-ui/core";
 import Header from "./header";
 
@@ -21,6 +21,8 @@ const CheckoutConfirmation = lazy(() => import("pages/checkout-confirmation"));
 const CheckoutSuccess = lazy(() => import("pages/checkout-success"));
 
 const Main = () => {
+    useScrollToTop();
+
     return (
         <>
             <Header />
@@ -68,6 +70,14 @@ const Main = () => {
         </>
     );
 };
+
+function useScrollToTop() {
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
+}
 
 const style = (theme) => ({
     main: theme.mixins.toolbar,

@@ -41,7 +41,7 @@ const ChoosePizzaQuantity = ({ location }) => {
                     </H4>
                 </HeaderContent>
                 <MainContent>
-                    <Input value={quantity} onChange={handleChange} autoFocus />
+                    <Input value={quantity} onChange={handleChange} />
                     <ButtonAddPizza to={HOME} onClick={addPizza}>
                         Adicionar e<br />
                         montar outra
