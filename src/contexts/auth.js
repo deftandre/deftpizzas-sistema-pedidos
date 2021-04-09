@@ -1,4 +1,4 @@
-import React, { createContext, useState, useCallback, useEffect } from "react";
+import React, { createContext, useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import firebase, { db } from "services/firebase";
 import { useMounted } from "hooks";
@@ -10,7 +10,6 @@ function AuthProvider({ children }) {
         isUserLoggedIn: false,
         user: null,
     });
-    const [userName, setUserName] = useState("");
     const mounted = useMounted();
 
     const upgradeUserName = useCallback(() => {
@@ -25,15 +24,13 @@ function AuthProvider({ children }) {
                     return;
                 }
                 if (doc.exists && uid !== "EMPTY") {
-                    setUserName(doc.data().name);
+                    return doc.data().name;
                 }
             })
-            .catch(() => {});
+            .catch(() => {
+                return "";
+            });
     }, [mounted, userInfo]);
-
-    useEffect(() => {
-        upgradeUserName();
-    }, [upgradeUserName]);
 
     const createAccount = useCallback((displayName, email, password) => {
         firebase
@@ -47,11 +44,7 @@ function AuthProvider({ children }) {
                     role: "user",
                 });
 
-                setUserInfo({
-                    ...userCredential.user,
-                    displayName,
-                    firstName: displayName.split(" ")[0],
-                });
+                setUserInfo(userCredential.user);
             })
             .catch((error) => {
                 if (
@@ -101,7 +94,6 @@ function AuthProvider({ children }) {
             .signOut()
             .then(() => {
                 setUserInfo({ isUserLoggedIn: false, user: null });
-                setUserName("");
             });
     }, []);
 
@@ -143,9 +135,8 @@ function AuthProvider({ children }) {
                 logout,
                 forgoutPassword,
                 userInfo,
-                userName,
-                upgradeUserName,
                 setUserInfo,
+                upgradeUserName,
             }}
         >
             {children}

@@ -13,13 +13,19 @@ const SingUp = lazy(() => import("pages/sing-up"));
 const ForgotPassword = lazy(() => import("pages/forgot-password"));
 
 function App({ location }) {
-    const { upgradeUserName, userName, userInfo, setUserInfo } = useAuth();
+    const [userName, setUserName] = useState("");
+    const { upgradeUserName, userInfo, setUserInfo } = useAuth();
     const [didCheckUserIn, setDidCheckUserIn] = useState(false);
 
     const { isUserLoggedIn } = userInfo;
 
     useEffect(() => {
-        firebase.auth().onAuthStateChanged(() => upgradeUserName());
+        async function fetchName() {
+            const result = await upgradeUserName();
+            setUserName(result);
+        }
+
+        fetchName();
     }, [upgradeUserName]);
 
     useEffect(() => {
@@ -29,14 +35,17 @@ function App({ location }) {
                 user: user && {
                     ...user,
                     displayName: user.displayName || userName,
-                    firstName:
-                        user.displayName?.split(" ")[0] ||
-                        userName.split(" ")[0],
+                    firstName: user.displayName
+                        ? user.displayName.split(" ")[0]
+                        : userName
+                        ? userName.split(" ")[0]
+                        : "",
                 },
             });
             setDidCheckUserIn(true);
         });
     }, [setUserInfo, userName]);
+    console.log(userInfo);
 
     if (!didCheckUserIn) {
         return <LinearProgress />;

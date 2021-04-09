@@ -15,7 +15,7 @@ function OrderProvider({ children }) {
     const [orderDrinksInProgress, setOrderDrinksInProgress] = useState(false);
     const [phone, addPhone] = useState("");
     const [address, addAddress] = useState({});
-    const { userName, userInfo } = useAuth();
+    const { userInfo } = useAuth();
     const [cep, setCep] = useState("");
 
     function addPizzaToOrder(pizza) {
@@ -79,10 +79,7 @@ function OrderProvider({ children }) {
         try {
             await db.collection("orders").add({
                 userId: userInfo.user.uid,
-                userName:
-                    userInfo.user.displayName === ""
-                        ? userName
-                        : userInfo.user.displayName,
+                userName: userInfo.user.displayName,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
 
                 address: {
