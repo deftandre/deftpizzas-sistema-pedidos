@@ -14,7 +14,7 @@ import { useAuth, useOrder } from "hooks";
 import { CHECKOUT, CHECKOUT_SUCCESS, HOME } from "routes";
 
 const CheckoutConfirmation = () => {
-    const { userInfo } = useAuth();
+    const { userName, userInfo } = useAuth();
     const { order, sendOrder } = useOrder();
 
     if (!order.pizzas.length) {
@@ -29,7 +29,13 @@ const CheckoutConfirmation = () => {
         <>
             <Content>
                 <Header>
-                    <H4>Oi {userInfo.user.firstName}!</H4>
+                    <H4>
+                        Oi{" "}
+                        {userInfo.user.firstName === ""
+                            ? userName
+                            : userInfo.user.firstName}
+                        !
+                    </H4>
                     <Typography>
                         Confere, por favor, se está tudo certo com o seu pedido
                         antes de finalizar?

@@ -15,9 +15,8 @@ function OrderProvider({ children }) {
     const [orderDrinksInProgress, setOrderDrinksInProgress] = useState(false);
     const [phone, addPhone] = useState("");
     const [address, addAddress] = useState({});
-    const { userInfo } = useAuth();
+    const { userName, userInfo } = useAuth();
     const [cep, setCep] = useState("");
-    const { userName } = useAuth();
 
     function addPizzaToOrder(pizza) {
         if (orderInProgress) {
