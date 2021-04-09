@@ -13,10 +13,14 @@ const SingUp = lazy(() => import("pages/sing-up"));
 const ForgotPassword = lazy(() => import("pages/forgot-password"));
 
 function App({ location }) {
-    const { userName, userInfo, setUserInfo } = useAuth();
+    const { upgradeUserName, userName, userInfo, setUserInfo } = useAuth();
     const [didCheckUserIn, setDidCheckUserIn] = useState(false);
 
     const { isUserLoggedIn } = userInfo;
+
+    useEffect(() => {
+        firebase.auth().onAuthStateChanged(() => upgradeUserName());
+    }, [upgradeUserName]);
 
     useEffect(() => {
         firebase.auth().onAuthStateChanged((user) => {

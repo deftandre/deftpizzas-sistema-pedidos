@@ -16,7 +16,8 @@ function AuthProvider({ children }) {
     const upgradeUserName = useCallback(() => {
         const uid = userInfo.user?.uid || "EMPTY";
 
-        db.collection("users")
+        return db
+            .collection("users")
             .doc(uid)
             .get()
             .then(async (doc) => {
@@ -24,7 +25,7 @@ function AuthProvider({ children }) {
                     return;
                 }
                 if (doc.exists && uid !== "EMPTY") {
-                    await setUserName(doc.data().name);
+                    setUserName(doc.data().name);
                 }
             })
             .catch(() => {});
@@ -34,30 +35,32 @@ function AuthProvider({ children }) {
         upgradeUserName();
     }, [upgradeUserName]);
 
-    const createAccount = useCallback(
-        (displayName, email, password) => {
-            firebase
-                .auth()
-                .createUserWithEmailAndPassword(email, password)
-                .then((userCredential) => {
-                    var user = userCredential.user;
-                    db.collection("users").doc(user.uid).set({
-                        email: email,
-                        name: displayName,
-                        role: "user",
-                    });
-                    upgradeUserName();
-                })
-                .catch((error) => {
-                    if (
-                        error.message ===
-                        "The email address is already in use by another account."
-                    )
-                        alert("Erro ao criar a conta, email já está em uso!");
+    const createAccount = useCallback((displayName, email, password) => {
+        firebase
+            .auth()
+            .createUserWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                var user = userCredential.user;
+                db.collection("users").doc(user.uid).set({
+                    email: email,
+                    name: displayName,
+                    role: "user",
                 });
-        },
-        [upgradeUserName]
-    );
+
+                setUserInfo({
+                    ...userCredential.user,
+                    displayName,
+                    firstName: displayName.split(" ")[0],
+                });
+            })
+            .catch((error) => {
+                if (
+                    error.message ===
+                    "The email address is already in use by another account."
+                )
+                    alert("Erro ao criar a conta, email já está em uso!");
+            });
+    }, []);
 
     const login = useCallback((email, password) => {
         firebase
