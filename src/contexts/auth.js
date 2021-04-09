@@ -16,16 +16,15 @@ function AuthProvider({ children }) {
     const upgradeUserName = useCallback(() => {
         const uid = userInfo.user?.uid || "EMPTY";
 
-        return db
-            .collection("users")
+        db.collection("users")
             .doc(uid)
             .get()
-            .then((doc) => {
+            .then(async (doc) => {
                 if (!mounted.current) {
                     return;
                 }
                 if (doc.exists && uid !== "EMPTY") {
-                    setUserName(doc.data().name);
+                    await setUserName(doc.data().name);
                 }
             })
             .catch(() => {});
@@ -47,7 +46,6 @@ function AuthProvider({ children }) {
                         name: displayName,
                         role: "user",
                     });
-
                     upgradeUserName();
                 })
                 .catch((error) => {
@@ -100,6 +98,7 @@ function AuthProvider({ children }) {
             .signOut()
             .then(() => {
                 setUserInfo({ isUserLoggedIn: false, user: null });
+                setUserName("");
             });
     }, []);
 
