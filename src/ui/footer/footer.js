@@ -28,6 +28,7 @@ const FooterContent = styled.footer`
     position: fixed;
     bottom: 0pt;
     left: 0pt;
+    z-index: 999;
 `;
 
 export default Footer;
