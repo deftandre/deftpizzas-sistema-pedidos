@@ -30,8 +30,8 @@ const ChoosePizzaSize = ({ pageConfig }) => {
     return (
         <Content>
             <HeaderContent>
-                <H3 variant="h3">{pageConfig.title}</H3>
-                <H4 variant="h4">{pageConfig.subTitle}</H4>
+                <H3>{pageConfig.title}</H3>
+                <H4>{pageConfig.subTitle}</H4>
             </HeaderContent>
             <PizzasGrid>
                 {pizzasSizes.map((pizza) => (

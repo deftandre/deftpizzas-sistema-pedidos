@@ -56,7 +56,9 @@ const ChoosePizzaDrinks = () => {
 
                                     <Divider />
 
-                                    <Typography>{drink.name}</Typography>
+                                    <Typography align="center">
+                                        {drink.name}
+                                    </Typography>
                                     <Typography variant="h6">
                                         {toMoney(drink.value)}
                                     </Typography>

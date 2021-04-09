@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { IconButton, Menu, MenuItem, Typography } from "@material-ui/core";
+import {
+    createMuiTheme,
+    IconButton,
+    Menu,
+    MenuItem,
+    Typography,
+    useMediaQuery,
+} from "@material-ui/core";
 import { AccountCircle } from "@material-ui/icons";
 import { HOME } from "routes";
 import { useAuth } from "hooks";
@@ -10,6 +17,8 @@ import Logo from "./logo";
 const HeaderCommon = () => {
     const [anchorElement, setAnchorElement] = useState(null);
     const { userInfo, logout } = useAuth();
+
+    let theme = createMuiTheme();
 
     const handleOpenMenu = (e) => {
         setAnchorElement(e.target);
@@ -26,7 +35,9 @@ const HeaderCommon = () => {
                 </LinkLogo>
             </LogoContainer>
             <Typography color="inherit">
-                Olá {userInfo.user.firstName} =)
+                {useMediaQuery(theme.breakpoints.down("xs"))
+                    ? null
+                    : `Olá ${userInfo.user.firstName} =)`}
             </Typography>
             <IconButton color="inherit" onClick={handleOpenMenu}>
                 <AccountCircle />

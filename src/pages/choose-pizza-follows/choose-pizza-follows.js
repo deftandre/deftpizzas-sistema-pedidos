@@ -60,7 +60,9 @@ const ChoosePizzaFollows = () => {
 
                                     <Divider />
 
-                                    <Typography>{follow.name}</Typography>
+                                    <Typography align="center">
+                                        {follow.name}
+                                    </Typography>
                                     <Typography variant="h6">
                                         {toMoney(follow.value)}
                                     </Typography>

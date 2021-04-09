@@ -96,7 +96,7 @@ const ChoosePizzaFlavours = ({ location }) => {
 
                                                 <Divider />
 
-                                                <Typography>
+                                                <Typography align="center">
                                                     {pizza.name}
                                                 </Typography>
                                                 <Typography variant="h6">
