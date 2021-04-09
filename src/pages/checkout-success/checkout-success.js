@@ -31,7 +31,8 @@ const CheckoutSuccess = () => {
                 <Header>
                     <H4>
                         Prontinho{" "}
-                        {userInfo.user.firstName === ""
+                        {userInfo.user.firstName === "" ||
+                        userInfo.user.firstName
                             ? userName
                             : userInfo.user.firstName}
                         !

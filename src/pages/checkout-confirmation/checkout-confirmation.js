@@ -31,7 +31,8 @@ const CheckoutConfirmation = () => {
                 <Header>
                     <H4>
                         Oi{" "}
-                        {userInfo.user.firstName === ""
+                        {userInfo.user.firstName === "" ||
+                        userInfo.user.firstName
                             ? userName
                             : userInfo.user.firstName}
                         !
