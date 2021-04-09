@@ -14,7 +14,7 @@ import { useAuth, useOrder } from "hooks";
 import { CHECKOUT, HOME } from "routes";
 
 const CheckoutSuccess = () => {
-    const { userName, userInfo } = useAuth();
+    const { userInfo } = useAuth();
     const { order } = useOrder();
 
     if (!order.pizzas.length) {
