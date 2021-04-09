@@ -45,7 +45,6 @@ function App({ location }) {
             setDidCheckUserIn(true);
         });
     }, [setUserInfo, userName]);
-    console.log(userInfo);
 
     if (!didCheckUserIn) {
         return <LinearProgress />;
