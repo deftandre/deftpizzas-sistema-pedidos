@@ -23,7 +23,7 @@ const Home = () => {
                       ordersRecused?.length !== 0 &&
                       !changeView
                     ? "Infelizmente não podemos concluir seu pedido :("
-                    : `O que vai ser hoje, ${userInfo.user.firstName}?`,
+                    : `O que vai ser hoje ${userInfo.user.firstName}?`,
             subTitle: "Escolha o tamanho da pizza:",
         }),
         [orders, ordersRecused, changeView, userInfo]
