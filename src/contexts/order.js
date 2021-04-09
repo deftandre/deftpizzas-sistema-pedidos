@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useCallback, useState } from "react";
 import PropTypes from "prop-types";
 import { v4 as uuidv4 } from "uuid";
 import firebase, { db } from "services/firebase";
@@ -107,6 +107,15 @@ function OrderProvider({ children }) {
         setOrderDrinksInProgress(false);
     }
 
+    const setViewOrder = useCallback(async ({ orderId, isView }) => {
+        await db.collection("ordersRecused").doc(orderId).set(
+            {
+                isView,
+            },
+            { merge: true }
+        );
+    }, []);
+
     return (
         <OrderContext.Provider
             value={{
@@ -130,6 +139,7 @@ function OrderProvider({ children }) {
                 addDrinkToOrder,
                 removeDrinkFromOrder,
                 clearDrinks,
+                setViewOrder,
             }}
         >
             {children}

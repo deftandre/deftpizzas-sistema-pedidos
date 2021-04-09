@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 
 import { Grid, TextField as MaterialTextField } from "@material-ui/core";
 
-function TextField({ xs, autoFocus, ...props }) {
+function TextField({ xs, sm, autoFocus, ...props }) {
     return (
-        <Grid item xs={xs}>
+        <Grid item xs={xs} sm={sm}>
             <MaterialTextField
                 fullWidth
                 variant="outlined"
@@ -21,6 +21,7 @@ function TextField({ xs, autoFocus, ...props }) {
 TextField.propTypes = {
     autoFocus: PropTypes.bool,
     xs: PropTypes.number,
+    sm: PropTypes.number,
 };
 
 export default TextField;

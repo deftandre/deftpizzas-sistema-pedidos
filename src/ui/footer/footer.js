@@ -20,6 +20,14 @@ const FooterContent = styled.footer`
     box-shadow: 0 0 3px ${({ theme }) => theme.palette.grey.A400};
     padding: ${({ theme }) => theme.spacing(3)}px;
     width: 100%;
+    background-color: #fafafa;
+    background-image: none;
+    background-repeat: repeat;
+    background-attachment: scroll;
+    background-position: 0% 0%;
+    position: fixed;
+    bottom: 0pt;
+    left: 0pt;
 `;
 
 export default Footer;

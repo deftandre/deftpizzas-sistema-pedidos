@@ -23,14 +23,14 @@ function FooterFollowQuantity({ buttons, history, location }) {
             <Container>
                 <Grid container>
                     <OrderContainer>
-                        <Texts>
+                        <Text>
                             <b>
                                 {userInfo.user.firstName}, seu acompanhamento é:
                             </b>
-                        </Texts>
-                        <Texts>
+                        </Text>
+                        <Text>
                             Acompanhamento <b>{name.toUpperCase()}</b>
-                        </Texts>
+                        </Text>
                     </OrderContainer>
                     <ButtonsContainer>
                         <Button
@@ -67,7 +67,7 @@ const ButtonsContainer = styled(Grid).attrs({ item: true })`
     display: flex;
 `;
 
-const Texts = styled(Typography)`
+const Text = styled(Typography)`
     font-size: ${({ theme }) =>
         useMediaQuery(theme.breakpoints.down("xs")) ? "14px" : null};
 `;
@@ -84,6 +84,14 @@ const FooterContent = styled.footer`
     box-shadow: 0 0 3px ${({ theme }) => theme.palette.grey.A400};
     padding: ${({ theme }) => theme.spacing(3)}px;
     width: 100%;
+    background-color: #fafafa;
+    background-image: none;
+    background-repeat: repeat;
+    background-attachment: scroll;
+    background-position: 0% 0%;
+    position: fixed;
+    bottom: 0pt;
+    left: 0pt;
 `;
 
 export default withRouter(FooterFollowQuantity);

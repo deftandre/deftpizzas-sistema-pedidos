@@ -10,16 +10,25 @@ import {
 } from "@material-ui/core";
 import { Content, Divider, H4, HeaderContent } from "ui";
 import { singularOrPlural } from "utils";
+import FooterView from "ui/footer/footer-view";
+import { useOrder } from "hooks";
 
-const OrderView = ({ pageConfig, orders, changeView }) => {
+const OrderView = ({ pageConfig, orders, ordersRecused, handleView }) => {
+    const { setViewOrder } = useOrder();
+
     const statusText = useMemo(
         () => ({
             pending: "pending",
             inProgress: "inProgress",
             outForDelivery: "outForDelivery",
+            recused: "recused",
         }),
         []
     );
+
+    if (orders.length === 0) {
+        orders = ordersRecused;
+    }
 
     function getOrderStatus(status) {
         return !status
@@ -37,6 +46,11 @@ const OrderView = ({ pageConfig, orders, changeView }) => {
             minute: "numeric",
         };
         return Intl.DateTimeFormat("pt-BR", options).format(date);
+    }
+
+    function setView() {
+        setViewOrder({ orderId: orders[0].id, isView: true });
+        handleView();
     }
 
     const ordersSteps = [
@@ -65,25 +79,30 @@ const OrderView = ({ pageConfig, orders, changeView }) => {
                         } = order.address;
                         return (
                             <Grid item container key={order.id}>
-                                <Grid
-                                    container
-                                    item
-                                    xs={12}
-                                    spacing={1}
-                                    justify="center"
-                                >
-                                    <Stepper
-                                        activeStep={getOrderStatus(
-                                            order.status
-                                        )}
+                                {(order.status !== statusText.recused ||
+                                    !order.status) && (
+                                    <Grid
+                                        container
+                                        item
+                                        xs={12}
+                                        spacing={1}
+                                        justify="center"
                                     >
-                                        {ordersSteps.map((label) => (
-                                            <Step key={label}>
-                                                <StepLabel>{label}</StepLabel>
-                                            </Step>
-                                        ))}
-                                    </Stepper>
-                                </Grid>
+                                        <Stepper
+                                            activeStep={getOrderStatus(
+                                                order.status
+                                            )}
+                                        >
+                                            {ordersSteps.map((label) => (
+                                                <Step key={label}>
+                                                    <StepLabel>
+                                                        {label}
+                                                    </StepLabel>
+                                                </Step>
+                                            ))}
+                                        </Stepper>
+                                    </Grid>
+                                )}
                                 <Grid item xs={12}>
                                     <Subtitle>
                                         Horário do pedido:{" "}
@@ -216,6 +235,16 @@ const OrderView = ({ pageConfig, orders, changeView }) => {
                     })}
                 </Grid>
             </Content>
+            {orders[0].isView === false && (
+                <FooterView
+                    buttons={{
+                        action: {
+                            onClick: setView,
+                            children: "Tudo bem :(",
+                        },
+                    }}
+                ></FooterView>
+            )}
         </>
     );
 };
@@ -223,6 +252,7 @@ const OrderView = ({ pageConfig, orders, changeView }) => {
 OrderView.propTypes = {
     pageConfig: PropTypes.object.isRequired,
     orders: PropTypes.array.isRequired,
+    ordersRecused: PropTypes.array.isRequired,
 };
 
 const Subtitle = styled(Typography).attrs({

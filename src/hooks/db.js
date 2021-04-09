@@ -49,6 +49,26 @@ function useCollection(collection) {
                               setData(docs);
                           }
                       })
+                : collection === "ordersRecused"
+                ? db
+                      .collection(collection)
+                      .where("userId", "==", userInfo.user.uid)
+                      .where("isView", "==", false)
+                      .get()
+                      .then((querySnapshot) => {
+                          let docs = [];
+
+                          querySnapshot.forEach((doc) => {
+                              docs.push({
+                                  id: doc.id,
+                                  ...doc.data(),
+                              });
+                          });
+
+                          if (mounted.current) {
+                              setData(docs);
+                          }
+                      })
                 : db
                       .collection(collection)
                       .get()

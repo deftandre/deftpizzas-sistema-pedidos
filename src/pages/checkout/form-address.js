@@ -77,27 +77,30 @@ const FormAddress = ({ onUpdate = () => {} }) => {
         <Grid container spacing={2} alignItems="center">
             <TextField
                 label="CEP"
-                xs={4}
+                sm={4}
+                xs={8}
                 autoFocus
                 value={cep}
                 onChange={handleChangeCep}
                 error={!!addressState.error}
                 required
             />
-            <Grid item xs={8}>
+            <Grid item sm={8} xs={4}>
                 {fetchingCep && <CircularProgress size={20} />}
             </Grid>
             {[
                 {
                     label: "Rua",
-                    xs: 9,
+                    xs: 12,
+                    sm: 9,
                     name: "address",
                     inputRef: addressField,
                     textLength: 200,
                 },
                 {
                     label: "Número",
-                    xs: 3,
+                    xs: 12,
+                    sm: 3,
                     name: "number",
                     inputRef: numberField,
                     textLength: 7,
@@ -105,18 +108,21 @@ const FormAddress = ({ onUpdate = () => {} }) => {
                 {
                     label: "Complemento",
                     xs: 12,
+                    sm: 12,
                     name: "complement",
                     textLength: 60,
                 },
                 {
                     label: "Cidade",
-                    xs: 9,
+                    xs: 12,
+                    sm: 9,
                     name: "city",
                     textLength: 60,
                 },
                 {
                     label: "Estado",
-                    xs: 3,
+                    xs: 12,
+                    sm: 3,
                     name: "state",
                     textLength: 30,
                 },
